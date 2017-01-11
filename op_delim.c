@@ -40,8 +40,14 @@ char	*gnl_to_char(char *delim)
 	newline = ft_strdup("\n");
 	line = (char **)ft_memalloc(sizeof(char*));
 	result = ft_strnew(1);
+	ft_putstr("wait char [\x1B[32m");
+	ft_putstr(delim);
+	ft_putstr("\x1B[0m] > ");
 	while (get_next_line(0, line) && !ft_strstr(*line, delim))
 	{
+		ft_putstr("wait char [\x1B[32m");
+		ft_putstr(delim);
+		ft_putstr("\x1B[0m] > ");
 		copi_statement(&result, line, &newline);
 	}
 	copi_statement(&result, line, &newline);
@@ -119,13 +125,14 @@ char	*get_prog_name(char *str, int *cnt, t_word *wd)
 			i++;
 		}
 		trim = ft_strsub(str, beg, i);
+		return (trim);
 	}
 	else if (wd->dlim == 1)
 	{
+		i= i + 1;
+		
 		result = continue_to_char(str, &i, beg, '\'');
-		trim = ft_strsub(result, 0, ft_strlen(result));
-		ft_putendl(result);
-		ft_putendl(trim);
+		trim = ft_strsub(result, 0, ft_strlen(result) - 1);
 		return (trim);
 	}
 	else if (wd->ddlim == 1)

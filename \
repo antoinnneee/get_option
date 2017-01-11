@@ -43,7 +43,7 @@ t_com	*get_option(char *str, int *cnt)
 	int		stop;
 	t_word	wd;
 	t_com	*elem;
-	long	test;
+	char	*test;
 
 	ft_bzero(&wd, sizeof(t_word));
 	if (!str)
@@ -57,10 +57,11 @@ t_com	*get_option(char *str, int *cnt)
 	{
 		R7OPT;
 		
+		long	mtest = (long)elem;
 		elem->prog = get_prog_name(str, cnt, &wd);
+		printf("%l, %l,", (long)elem, (long)elem->prog);
 		ft_putstr("Resultat -->");
-		ft_putnbrnl(*(int*)(elem));
-		ft_putendl((char*)*(&elem + 8));
+		ft_putendl((char*)mtest);
 		
 		break;
 //built_word(str, cnt, &elem, &wd);

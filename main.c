@@ -74,6 +74,7 @@ int main(int a, char **b)
 {
 	char **line;
 
+//	ft_putnbr(sizeof(int));
 	gnl_statement(0, init_gnl(), b);
 //	f(NULL, 0);
 	return (0);
