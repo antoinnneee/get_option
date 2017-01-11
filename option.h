@@ -60,5 +60,6 @@ void				option_parser(char *line_cpy);
 void				push_back_com(t_com **head, t_com *elem);
 int					is_delim(char c);
 int					isblk(char c);
+char				*get_red_l_opt(char *delim);
 
 #endif

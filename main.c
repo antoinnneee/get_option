@@ -50,6 +50,7 @@ void	gnl_statement(int fd, char **line, char **param)
 		}
 		else if (*line)
 		{
+			ft_putendl(": ============= :");
 			option_parser(ft_strdup(*line));
 		}
 		/*
@@ -61,7 +62,7 @@ void	gnl_statement(int fd, char **line, char **param)
 			result = NULL;
 		}
 		*/
-		free(*line);	
+		free(*line);
 	}
 //	free(*line);
 	free(line);

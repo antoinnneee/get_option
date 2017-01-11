@@ -5,16 +5,18 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abureau <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/01/03 10:55:37 by abureau           #+#    #+#              #
-#    Updated: 2017/01/03 10:55:37 by abureau          ###   ########.fr        #
+#    Created: 2017/01/10 14:20:22 by abureau           #+#    #+#              #
+#    Updated: 2017/01/10 14:20:22 by abureau          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME = go
 
-SRC = ./main.c \
+SRC =./main.c \
+	./op_delim.c \
 	./get_next_line.c \
-	./gnl_patch.c
+	./gnl_patch.c \
+	./get_option.c
 
 CC = gcc
 

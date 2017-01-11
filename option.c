@@ -25,11 +25,11 @@ int	cmd_get_end(char **line)
 	int index;
 
 	index = 0;
-	while (line[index])
+	while (*line[index])
 	{
-		if (is_cmd_delim(line[index]))
+		if (is_cmd_delim(*line[index]))
 		{
-			if (line[index] == ';')	
+			if (*line[index] == ';')	
 				return (index);
 			else
 				cmd_get_end_unactive(&line[index+1], line[index]);

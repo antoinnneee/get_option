@@ -17,6 +17,7 @@ t_com	*init_com()
 
 t_com	built_word(char *str, int *cnt, t_com **cmd, t_word *wd)
 {
+char del;
 	while (str[*cnt])
 	{
 		if (is_delim(str[*cnt]))
@@ -26,10 +27,10 @@ t_com	built_word(char *str, int *cnt, t_com **cmd, t_word *wd)
 //				ignore continue reading;
 			}
 		}
-		if (is_spechar(str[*cnt]))
-		{
+//		if (is_spechar(str[*cnt]))
+//		{
 			
-		}
+//		}
 		*cnt++;
 		//		build_word(str, &index);
 	}
@@ -47,13 +48,18 @@ t_com	*get_option(char *str, int *cnt)
 		return (NULL);
 	head = init_com();
 	elem = init_com();
+	ft_putendl("init complete");
 	if (!head)
 		return (NULL);
 	while (str[*cnt])
 	{
 		R7OPT;
 		elem->prog = get_prog_name(str, cnt, &wd);
-		built_word(str, cnt, &elem, &wd);
+		ft_putstr("Resultat -->");
+		ft_putendl(elem->prog);
+		
+		break;
+//built_word(str, cnt, &elem, &wd);
 	}
 	return (head);
 }
@@ -93,6 +99,7 @@ void	option_parser(char	*line_cpy)
 		elem = get_option(&line_cpy[index], &cnt);
 		index = index + cnt;
 		cnt = 0;
+		break;
 	}
 }
 
