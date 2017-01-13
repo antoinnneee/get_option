@@ -6,7 +6,7 @@
 /*   By: abureau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 14:35:12 by abureau           #+#    #+#             */
-/*   Updated: 2017/01/11 14:59:50 by abureau          ###   ########.fr       */
+/*   Updated: 2017/01/13 15:45:18 by abureau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct		s_word{
 	int				ddlim;
 	int				dlim;
 	int				esc;
+	char			dc;
+	int				i;
 	char			*mot;
 }					t_word;
 
