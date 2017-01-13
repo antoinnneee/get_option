@@ -76,6 +76,7 @@ t_com	*get_option(char *str, int *cntd)
 		ft_putendl(elem->prog);
 		free(elem->prog);
 		free(elem);
+		free(str);
 	return (head);
 }
 

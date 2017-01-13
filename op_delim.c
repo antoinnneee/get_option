@@ -33,14 +33,14 @@ static void	copi_statement(char **result, char **line, char **newline)
 
 char	*gnl_to_char(char *delim)
 {
-	char	*temp;
 	char	**line;
 	char	*result;
 	char	*newline;
+	char	*temp;
 
 	newline = ft_strdup("\n");
 	line = (char **)ft_memalloc(sizeof(char*));
-	result = ft_strnew(1);
+	result = NULL;;
 	ft_putstr("wait char [\x1B[32m");
 	ft_putstr(delim);
 	ft_putstr("\x1B[0m] > ");
@@ -54,12 +54,10 @@ char	*gnl_to_char(char *delim)
 	temp = ft_strjoin(result, *line);
 	free(result);
 	free(*line);
-	result = temp;
-//	free(*line);
 	free(newline);
 	free(line);
 	line = NULL;
-	return (result);
+	return (temp);
 }
 
 static void		add_new_line(char **str)
@@ -71,15 +69,12 @@ static void		add_new_line(char **str)
 	dest = ft_strnew(ft_strlen(src) + 2);
 	ft_strcpy(dest, src);
 	dest[ft_strlen(src)] = '\n';
-//	if (src)
-//	free(src);
 	src = NULL;
 	*str = dest;
 }
 
 char	*continue_to_char(char *str, int *i, int beg, char delim)
 {
-	ft_putendl("begin continue to char");
 	char	*trim;
 	char	*res;
 	char	*result;
@@ -94,27 +89,23 @@ char	*continue_to_char(char *str, int *i, int beg, char delim)
 	trim = ft_strsub(str, beg, *i - 1);
 	if (!str[*i])
 	{
-		ft_putendl("beg add new line");
-		add_new_line(&str);
-		ft_putendl("beg gnl_to_char");
+	
+//		add_new_line(&str);
 		res = gnl_to_char(del);
-		res = ft_strjoin(newline, res);
-		result = ft_strjoin(trim, res);
-		ft_putendl("free res");
-		if (res)
-			free(res);
-		ft_putendl("free res ok , free trim");
-		if (trim)
+		result = ft_strjoin(newline, res);
+		free(res);
+		res = ft_strjoin(trim, result);
+			free(result);
 			free(trim);
-		ft_putendl("free trim ok");
 	}
 	else
 	{
-		result = trim;
+		res = trim;
 		*i = *i + 1;
 	}
+	free(newline);
 	ft_putendl("end continue to char");
-return (result);
+return (res);
 }
 
 char	*get_prog_name(char *str, int *cnt, t_word *wod)
