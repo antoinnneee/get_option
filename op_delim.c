@@ -71,16 +71,15 @@ static void		add_new_line(char **str)
 	dest = ft_strnew(ft_strlen(src) + 2);
 	ft_strcpy(dest, src);
 	dest[ft_strlen(src)] = '\n';
-	free(src);
+//	if (src)
+//	free(src);
 	src = NULL;
 	*str = dest;
-	ft_putendl("qdd new line");
-	ft_putstr(*str);
-	ft_putendl("nl added");
 }
 
 char	*continue_to_char(char *str, int *i, int beg, char delim)
 {
+	ft_putendl("begin continue to char");
 	char	*trim;
 	char	*res;
 	char	*result;
@@ -95,18 +94,26 @@ char	*continue_to_char(char *str, int *i, int beg, char delim)
 	trim = ft_strsub(str, beg, *i - 1);
 	if (!str[*i])
 	{
+		ft_putendl("beg add new line");
 		add_new_line(&str);
+		ft_putendl("beg gnl_to_char");
 		res = gnl_to_char(del);
 		res = ft_strjoin(newline, res);
 		result = ft_strjoin(trim, res);
-		free(res);
-		free(trim);
+		ft_putendl("free res");
+		if (res)
+			free(res);
+		ft_putendl("free res ok , free trim");
+		if (trim)
+			free(trim);
+		ft_putendl("free trim ok");
 	}
 	else
 	{
 		result = trim;
 		*i = *i + 1;
 	}
+	ft_putendl("end continue to char");
 return (result);
 }
 

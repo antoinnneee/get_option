@@ -49,6 +49,7 @@ t_com	*get_option(char *str, int *cntd)
 
 	tmp = 0;
 	cnt = 0;
+	t = NULL;
 	if (!str)
 		return (NULL);
 	head = init_com();
@@ -63,8 +64,10 @@ t_com	*get_option(char *str, int *cntd)
 		tmp = cnt;
 		t = get_prog_name(&str[cnt], &cnt, NULL);
 		tempo = ft_strjoin(elem->prog, t);
+		if (elem->prog)
 		free(elem->prog);
-		free(t);
+		if (t)
+			free(t);
 		elem->prog = tempo;
 		cnt = cnt + tmp;
 //built_word(str, cnt, &elem, &wd);
@@ -113,7 +116,7 @@ void	option_parser(char	*line_cpy)
 		cnt = 0;
 		break;
 	}
-	free(line_cpy);
+	//free(line_cpy);
 }
 
 void	push_back_com(t_com **head, t_com *elem)
