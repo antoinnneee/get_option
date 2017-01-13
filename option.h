@@ -35,7 +35,7 @@
 
 typedef struct		s_com{
 	int				is_piped;
-	char			*prog;
+char			*prog;
 	char			**param;
 	char			**option;
 	struct s_com	*next;

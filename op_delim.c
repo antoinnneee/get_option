@@ -33,6 +33,7 @@ static void	copi_statement(char **result, char **line, char **newline)
 
 char	*gnl_to_char(char *delim)
 {
+	char	*temp;
 	char	**line;
 	char	*result;
 	char	*newline;
@@ -50,13 +51,32 @@ char	*gnl_to_char(char *delim)
 		ft_putstr("\x1B[0m] > ");
 		copi_statement(&result, line, &newline);
 	}
-	copi_statement(&result, line, &newline);
-
+	temp = ft_strjoin(result, *line);
+	free(result);
+	free(*line);
+	result = temp;
 //	free(*line);
 	free(newline);
 	free(line);
 	line = NULL;
 	return (result);
+}
+
+static void		add_new_line(char **str)
+{
+	char	*dest;
+	char	*src;
+
+	src = *str;
+	dest = ft_strnew(ft_strlen(src) + 2);
+	ft_strcpy(dest, src);
+	dest[ft_strlen(src)] = '\n';
+	free(src);
+	src = NULL;
+	*str = dest;
+	ft_putendl("qdd new line");
+	ft_putstr(*str);
+	ft_putendl("nl added");
 }
 
 char	*continue_to_char(char *str, int *i, int beg, char delim)
@@ -65,40 +85,44 @@ char	*continue_to_char(char *str, int *i, int beg, char delim)
 	char	*res;
 	char	*result;
 	char	del[2];
-
+	char	*newline = ft_strdup("\n");
 	del[0] = delim;
 	del[1] = '\0';
 	while (str[*i] != delim && str[*i] != '\0')
 	{
 		*i = *i + 1;
 	}
-	if (str[*i] == delim)
-		trim = ft_strsub(str, beg, *i - 1);
-	else
-		trim = ft_strsub(str, beg, *i);
+	trim = ft_strsub(str, beg, *i - 1);
 	if (!str[*i])
 	{
+		add_new_line(&str);
 		res = gnl_to_char(del);
+		res = ft_strjoin(newline, res);
 		result = ft_strjoin(trim, res);
 		free(res);
 		free(trim);
 	}
 	else
+	{
 		result = trim;
-	return (result);
+		*i = *i + 1;
+	}
+return (result);
 }
 
-char	*get_prog_name(char *str, int *cnt, t_word *wd)
+char	*get_prog_name(char *str, int *cnt, t_word *wod)
 {
 	char	*trim;
 	int		i;
 	int		beg;
-	char	*res;
 	char	*result;
+	t_word	wd;
 
+	wd.ddlim = 0;
+	wd.dlim = 0;
 	ft_putstr("lineread : ");
 	ft_putendl(str);
-	i = *cnt;
+	i = 0;
 	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == ';' )
 		i++;
 	if (str[i] == '|' || unexpected_char(str[i]))
@@ -108,51 +132,50 @@ char	*get_prog_name(char *str, int *cnt, t_word *wd)
 	}
 	if (str[i] == '"')
 	{
-		wd->ddlim = 1;
 		i++;
+		wd.ddlim = 1;
 	}
 	else if (str[i] == '\'')
 	{
-		wd->dlim = 1;
 		i++;
+		wd.dlim = 1;
 	}
 	beg = i;
 	// (UP) tout les test sont fait
-	if (!(wd->ddlim || wd->dlim)) // basic case, no complete possible
+	if (!wd.ddlim && !wd.dlim) // basic case, no complete possible
 	{
-		while (!isblk(str[i]))
+	ft_putendl("basic case");
+		while (!isblk(str[i]) && (str[i] != '\'' && str[i] != '"'))
 		{
 			i++;
 		}
+		ft_putstrnb("char from str : " , i);
 		trim = ft_strsub(str, beg, i);
+		*cnt = i;
 		return (trim);
 	}
-	else if (wd->dlim == 1)
+	else if (wd.dlim == 1)
 	{
-		i= i + 1;
-		
 		result = continue_to_char(str, &i, beg, '\'');
-		trim = ft_strsub(result, 0, ft_strlen(result) - 1);
-		return (trim);
+		trim = ft_strsub(result, 0, ft_strlen(result));
+		free(result);
+		result = ft_strtrimchar(trim, '\'');
+		free(trim);
+		ft_putstrnb("char from str : " , i);
+//		if (str[ft_strlen(trim) + 2])
+//			result = ft_strjoin(trim, get_prog_name( &str[ft_strlen(trim) + 2], &i, wod));
+		*cnt = i;
+	return (result);
 	}
-	else if (wd->ddlim == 1)
+	else if (wd.ddlim == 1)
 	{
-		while (str[i] != '\"' && str[i] != '\0')
-		{
-			i++;
-		}
-		trim = ft_strsub(str, beg, i - 1);
-		if (!str[i])
-		{
-			res = get_red_l_opt("\"");
-			result = ft_strjoin(trim, res);
-			free(res);
-			free(trim);
-		}
-		else
-		{
-			result = trim;
-		}
+		result = continue_to_char(str, &i, beg, '\"');
+		trim = ft_strsub(result, 0, ft_strlen(result));
+		free(result);
+		result = ft_strtrimchar(trim, '"');
+		free(trim);
+		ft_putstrnb("char from str : " , i);
+		*cnt = i;
 		return (result);
 	}
 }

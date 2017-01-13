@@ -8,7 +8,7 @@ t_com	*init_com()
 	t_com	*new;
 
 	new = (t_com*)ft_memalloc(sizeof(t_com));
-	new->is_piped = 0;
+	new->is_piped = 42;
 	new->prog = NULL;
 	new->param = NULL;
 	new->option = NULL;
@@ -37,34 +37,42 @@ char del;
 	}
 }
 
-t_com	*get_option(char *str, int *cnt)
+t_com	*get_option(char *str, int *cntd)
 {
 	t_com	*head;
 	int		stop;
-	t_word	wd;
 	t_com	*elem;
-	long	test;
+	int		cnt;
+	int		tmp;
+	char	*tempo;
+	char	*t;
 
-	ft_bzero(&wd, sizeof(t_word));
+	tmp = 0;
+	cnt = 0;
 	if (!str)
 		return (NULL);
 	head = init_com();
 	elem = init_com();
+	free(head);
 	ft_putendl("init complete");
 	if (!head)
 		return (NULL);
-	while (str[*cnt])
+	while (str[cnt])
 	{
 		R7OPT;
-		
-		elem->prog = get_prog_name(str, cnt, &wd);
-		ft_putstr("Resultat -->");
-		ft_putnbrnl(*(int*)(elem));
-		ft_putendl((char*)*(&elem + 8));
-		
-		break;
+		tmp = cnt;
+		t = get_prog_name(&str[cnt], &cnt, NULL);
+		tempo = ft_strjoin(elem->prog, t);
+		free(elem->prog);
+		free(t);
+		elem->prog = tempo;
+		cnt = cnt + tmp;
 //built_word(str, cnt, &elem, &wd);
 	}
+		ft_putstr("Resultat -->");
+		ft_putendl(elem->prog);
+		free(elem->prog);
+		free(elem);
 	return (head);
 }
 
@@ -105,6 +113,7 @@ void	option_parser(char	*line_cpy)
 		cnt = 0;
 		break;
 	}
+	free(line_cpy);
 }
 
 void	push_back_com(t_com **head, t_com *elem)
